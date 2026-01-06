@@ -206,8 +206,8 @@ If you use GridFM in your research, please cite our paper:
 ```bibtex
 @article{gridfm2024,
   title={GridFM: A Physics-Informed Foundation Model for Multi-Task Energy Forecasting Using Real-Time NYISO Data},
-  author={[Authors]},
-  journal={[Journal]},
+  author={Sayghe, Ali},
+  journal={MDPI Energies},
   year={2024}
 }
 ```
@@ -234,7 +234,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-For questions or feedback, please open an issue or contact [email@example.com].
+For questions or feedback, please open an issue or contact [sayghea@rcjy.edu.sa].
 
 ---
 
