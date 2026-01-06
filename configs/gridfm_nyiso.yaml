@@ -1,0 +1,114 @@
+# GridFM Configuration for NYISO
+# ==============================
+
+model:
+  # Backbone foundation model
+  backbone: moirai-moe-base
+  backbone_dim: 512
+  freeze_backbone: true
+  
+  # FreqMixer configuration
+  hidden_dim: 256
+  num_freq_components: 64
+  freq_delta: 2  # ±2 frequency bins tolerance
+  
+  # GCN configuration
+  num_zones: 11
+  gcn_hidden_dim: 128
+  gcn_num_layers: 2
+  
+  # Tasks
+  tasks:
+    - load
+    - lbmp
+    - emissions
+    - renewable
+
+physics:
+  enable_power_balance: true
+  enable_dc_power_flow: true
+  physics_weight: 0.1
+  coupling_weight: 0.05
+
+data:
+  # Training data
+  train_start: "2019-01-01"
+  train_end: "2022-12-31"
+  
+  # Validation data
+  val_start: "2023-01-01"
+  val_end: "2023-06-30"
+  
+  # Test data
+  test_start: "2023-07-01"
+  test_end: "2023-12-31"
+  
+  # Sequence configuration
+  sequence_length: 288  # 24 hours at 5-min resolution
+  forecast_horizon: 24  # 2 hours ahead
+  stride: 1
+  
+  # Zones
+  zones:
+    - WEST
+    - GENESE
+    - CENTRL
+    - NORTH
+    - MHK VL
+    - CAPITL
+    - HUD VL
+    - MILLWD
+    - DUNWOD
+    - N.Y.C.
+    - LONGIL
+
+training:
+  batch_size: 32
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  num_epochs: 100
+  early_stopping_patience: 10
+  
+  # Gradient clipping
+  max_grad_norm: 1.0
+  
+  # Learning rate schedule
+  scheduler: cosine
+  warmup_epochs: 5
+  
+  # Mixed precision
+  use_amp: true
+  
+  # Checkpointing
+  save_every: 10
+  eval_every: 1
+
+evaluation:
+  metrics:
+    - mape
+    - rmse
+    - mae
+    - r2
+  
+  # Rolling origin cross-validation
+  num_folds: 5
+  
+  # Statistical significance
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+
+logging:
+  # Weights & Biases
+  use_wandb: false
+  wandb_project: gridfm
+  wandb_entity: null
+  
+  # TensorBoard
+  use_tensorboard: true
+  log_dir: ./logs
+
+# Hardware
+hardware:
+  num_workers: 4
+  pin_memory: true
+  device: auto  # auto, cuda, cpu
